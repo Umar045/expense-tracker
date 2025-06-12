@@ -35,16 +35,25 @@ const word = "Daily Expense Tracker";
 const header = document.getElementById('typewriter-header');
 let charIndex = 0;
 function typeWord() {
-  if (charIndex <= word.length) {
-    header.textContent = word.substring(0, charIndex);
-    charIndex++;
-    setTimeout(typeWord, 100);
-  } else {
-    setTimeout(() => {
-      charIndex = 0;
-      typeWord();
-    }, 1200); // Pause before restarting
-  }
+    if (charIndex < word.length) {
+        header.textContent = word.substring(0, charIndex + 1);
+        charIndex++;
+        setTimeout(typeWord, 150);
+    } else {
+        setTimeout(() => {
+            let fadeEffect = setInterval(() => {
+                if (header.style.opacity > 0) {
+                    header.style.opacity -= 0.1;
+                } else {
+                    clearInterval(fadeEffect);
+                    charIndex = 0;
+                    header.style.opacity = 1;
+                    typeWord();
+                }
+            }, 100);
+        }, 2000);
+    }
 }
+header.style.opacity = 1;
 typeWord();
 </script>

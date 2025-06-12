@@ -18,16 +18,16 @@ body {
 
 /* Modern Sidebar Styling */
 .sidebar {
-  background: linear-gradient(to bottom, #22304a, #34495e);
-  padding-top: 90px; /* Adjusted to match header height */
+  background: linear-gradient(135deg, #1a237e, #283593);
+  padding-top: 80px;
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 240px;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
-  z-index: 1000;
-  transition: width 0.3s;
+  width: 260px;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transition: all 0.3s ease;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -40,11 +40,17 @@ body {
   margin-bottom: 20px;
 }
 
+/* Profile Picture Styling */
 .profile-userpic {
   position: relative;
   width: 120px;
   height: 120px;
   margin: 0 auto 15px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .profile-userpic img {
@@ -55,6 +61,12 @@ body {
   border: 3px solid #3498db;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  background: #fff;
+}
+
+.profile-userpic:hover img {
+  transform: scale(1.05);
+  filter: brightness(0.9);
 }
 
 .profile-userpic .edit-avatar {
@@ -71,6 +83,13 @@ body {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.profile-userpic:hover .edit-avatar {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .profile-userpic .edit-avatar:hover {
@@ -248,23 +267,22 @@ body {
 
 /* Animated Header Styles */
 .header-animated {
-  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
-  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
-  padding: 20px 0 0 0; /* Top 60px, right 0, bottom 0, left 0 */
+  background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
+  padding: 15px 30px;
   text-align: center;
-  margin: 20px 0% 0% 0%; /* margin-bottom set to 0% */
-  border-radius: 0 0 20px 20px;
+  border-radius: 12px;
   position: fixed;
   z-index: 1100;
-  padding-top: -1%;
-  margin-top: 0%;
-  width: 200%;
-  max-width: 1200px;
-  left: 55%;
-  transform: translateX(-50%);
+  top: 15px;
+  left: 280px;
+  right: 30px;
+  width: auto;
+  max-width: calc(100% - 310px);
+  transform: none;
   box-sizing: border-box;
-
-  border: 2px solid #e3eafc;
+  border: none;
+  backdrop-filter: blur(10px);
 }
 
 .header-animated h1 {
@@ -480,11 +498,16 @@ body {
 
 /* Main Content Area */
 .main {
-  padding: 20px;
-  margin-top: 70px;
-  background: #fff;
-  min-height: calc(100vh - 70px);
+  margin-left: 260px;
+  padding: 30px;
+  margin-top: 20px;
+  background: #f5f5f5;
+  height: 80vh;
+  width: 80%;
+  margin-right: auto;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 /* Dashboard Cards */

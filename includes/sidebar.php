@@ -22,16 +22,41 @@ if (!isset($_SESSION['detsuid']) || empty($_SESSION['detsuid'])) {
 // Handle profile picture upload
 if(isset($_FILES['profile_picture'])) {
     $userid = $_SESSION['detsuid'];
-    $target_dir = "../uploads/profile_pictures/";
     
-    // Create directory if it doesn't exist
-    if (!file_exists($target_dir)) {
-        mkdir($target_dir, 0777, true);
+    // Set up upload directory paths
+    $base_upload_dir = dirname(__DIR__) . "/uploads";
+    $profile_pictures_dir = $base_upload_dir . "/profile_pictures";
+    
+    // Create base uploads directory if it doesn't exist
+    if (!file_exists($base_upload_dir)) {
+        if (!mkdir($base_upload_dir, 0777, true)) {
+            error_log("Failed to create uploads directory");
+            die('Failed to create uploads directory');
+        }
+        chmod($base_upload_dir, 0777);
     }
+    
+    // Create profile pictures directory if it doesn't exist
+    if (!file_exists($profile_pictures_dir)) {
+        if (!mkdir($profile_pictures_dir, 0777, true)) {
+            error_log("Failed to create profile pictures directory");
+            die('Failed to create profile pictures directory');
+        }
+        chmod($profile_pictures_dir, 0777);
+    }
+      $target_dir = $profile_pictures_dir . "/";
     
     $file_extension = strtolower(pathinfo($_FILES["profile_picture"]["name"], PATHINFO_EXTENSION));
     $new_filename = "user_" . $userid . "." . $file_extension;
     $target_file = $target_dir . $new_filename;
+    
+    // Delete old profile picture if exists
+    $old_files = glob($target_dir . "user_" . $userid . ".*");
+    foreach($old_files as $old_file) {
+        if(is_file($old_file)) {
+            unlink($old_file);
+        }
+    }
     
     // Check if image file is a actual image or fake image
     if(getimagesize($_FILES["profile_picture"]["tmp_name"]) !== false) {
@@ -74,20 +99,32 @@ try {
 ?>
 
 <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-    <div class="profile-sidebar">
-        <div class="profile-userpic">
-            <?php
-            // Fix: Use absolute path from project root for default avatar
-            $profile_path = "uploads/profile_pictures/" . $profile_picture;
+    <div class="profile-sidebar">        <div class="profile-userpic">
+            <?php            $profile_path = dirname(__DIR__) . "/uploads/profile_pictures/" . $profile_picture;
             if($profile_picture && file_exists($profile_path)) {
-                $img_src = $profile_path;
+                $img_src = "../uploads/profile_pictures/" . $profile_picture;
             } else {
-                $img_src = "/Expense/Expense-Management-System/assets/images/default-avatar.png";
+                // Ensure uploads directory exists with proper permissions
+                $upload_dir = dirname(__DIR__) . "/uploads";
+                $profile_dir = $upload_dir . "/profile_pictures";
+                
+                if (!file_exists($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+                if (!file_exists($profile_dir)) {
+                    mkdir($profile_dir, 0777, true);
+                }
+                
+                // Set permissions
+                chmod($upload_dir, 0777);
+                chmod($profile_dir, 0777);
+                
+                $img_src = "../assets/images/default-avatar.png";
             }
             ?>
-            <img src="<?php echo htmlspecialchars($img_src); ?>" class="img-responsive" alt="">
-            <div class="edit-avatar" onclick="document.getElementById('profile_picture_input').click();">
-                <i class="fa fa-camera"></i>
+            <img src="<?php echo htmlspecialchars($img_src); ?>" alt="User Avatar">
+            <div class="edit-avatar">
+                <i class="fa fa-pencil"></i>
             </div>
             <form id="profile_picture_form" method="post" enctype="multipart/form-data" style="display: none;">
                 <input type="file" id="profile_picture_input" name="profile_picture" accept="image/jpeg,image/png" onchange="this.form.submit()">
@@ -160,6 +197,11 @@ try {
 <script>
 // Add active class to current page
 document.addEventListener('DOMContentLoaded', function() {
+    // Profile picture edit functionality
+    document.querySelector('.edit-avatar').addEventListener('click', function() {
+        document.getElementById('profile_picture_input').click();
+    });
+    
     var currentPage = window.location.pathname.split('/').pop();
     var menuItems = document.querySelectorAll('.nav.menu li a');
     
@@ -179,8 +221,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-toggle="collapse"]').forEach(function(toggle) {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             var target = document.querySelector(this.getAttribute('href'));
             if(target) {
+                // Close other open menus
+                document.querySelectorAll('.children.in').forEach(function(menu) {
+                    if(menu !== target) {
+                        menu.classList.remove('in');
+                        var menuToggle = menu.previousElementSibling;
+                        if(menuToggle) {
+                            menuToggle.setAttribute('aria-expanded', 'false');
+                            var menuIcon = menuToggle.querySelector('.fa');
+                            if(menuIcon) {
+                                menuIcon.classList.add('fa-plus');
+                                menuIcon.classList.remove('fa-minus');
+                            }
+                        }
+                    }
+                });
+
+                // Toggle current menu
                 target.classList.toggle('in');
                 var icon = this.querySelector('.fa');
                 if(icon) {
