@@ -34,38 +34,55 @@ if(isset($_POST['submit']))
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
-	
+	<link href="css/auth-styles.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-	<div class="row">
-			<h2 align="center">Daily Expense Tracker</h2>
-	<hr />
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">Log in</div>
-				<div class="panel-body">
-					<p style="font-size:16px; color:red" align="center"> <?php if($msg){
-    echo $msg;
-  }  ?> </p>
-					<form role="form" action="" method="post" id="" name="login">
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="" required="true">
-							</div>
-							
-							<div class="form-group">
-								<input class="form-control" placeholder="Mobile Number" name="contactno" type="contactno" value="" required="true">
-							</div>
-							<div class="checkbox">
-								<button type="submit" value="" name="submit" class="btn btn-primary">Reset</button><span style="padding-left:250px"><a href="index.php" class="btn btn-primary">Login</a></span>
-
-							</div>
-							</fieldset>
-					</form>
-				</div>
+<body class="auth-page">
+	<div class="container">
+		<div class="auth-title">
+			<h2>Daily Expense Tracker</h2>
+			<hr>
+		</div>
+		
+		<div class="auth-card">
+			<div class="auth-card-header">
+				<h4>Forgot Password</h4>
+				<p>Enter your email and mobile number to reset your password</p>
 			</div>
-		</div><!-- /.col-->
-	</div><!-- /.row -->	
+			<div class="auth-card-body">
+				<?php if($msg){ ?>
+				<div class="auth-alert auth-alert-danger">
+					<?php echo $msg; ?>
+				</div>
+				<?php } ?>
+				
+				<form role="form" action="" method="post" id="" name="login">
+					<div class="auth-form-group">
+						<i class="fa fa-envelope auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Email Address" name="email" type="email" autofocus required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-phone auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Mobile Number" name="contactno" type="text" required>
+					</div>
+					
+					<button type="submit" name="submit" class="auth-btn auth-btn-primary">Reset Password</button>
+					
+					<div class="auth-divider">
+						<hr>
+						<span>Remember your password?</span>
+						<hr>
+					</div>
+					
+					<div class="text-center">
+						<a href="index.php" class="auth-link">Back to Login</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 
 <script src="js/jquery-1.11.1.min.js"></script>

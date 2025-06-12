@@ -45,10 +45,7 @@ if (!$row) { die('Expense not found.'); }
       <label>Cost</label>
       <input type="number" step="0.01" name="cost" class="form-control" value="<?php echo htmlspecialchars($row['ExpenseCost']); ?>" required>
     </div>
-    <div class="form-group">
-      <label>Note</label>
-      <textarea name="note" class="form-control"><?php echo htmlspecialchars($row['Note']); ?></textarea>
-    </div>
+    
     <button type="submit" name="update" class="btn btn-success">Update</button>
     <a href="manage-expense.php" class="btn btn-secondary">Cancel</a>
   </form>

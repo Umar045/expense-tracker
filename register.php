@@ -44,6 +44,9 @@ if(isset($_POST['submit']))
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
+	<link href="css/auth-styles.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 	<script type="text/javascript">
 function checkpass()
 {
@@ -57,44 +60,67 @@ return true;
 } 
 
 </script>
-<body>
-	<div class="row">
-			<h2 align="center">Daily Expense Tracker</h2>
-	<hr />
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">Sign Up</div>
-				<div class="panel-body">
-					<form role="form" action="" method="post" id="" name="signup" onsubmit="return checkpass();">
-						<p style="font-size:16px; color:red" align="center"> <?php if($msg){
-    echo $msg;
-  }  ?> </p>
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="Full Name" name="name" type="text" required="true">
-							</div>
-							<div class="form-group">
-								<input class="form-control" placeholder="E-mail" name="email" type="email" required="true">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" maxlength="10" pattern="[0-9]{10}" required="true">
-							</div>
-							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="password" type="password" value="" required="true">
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Repeat Password" required="true">
-							</div>
-							<div class="checkbox">
-								<button type="submit" value="submit" name="submit" class="btn btn-primary">Register</button><span style="padding-left:250px">
-								<a href="index.php" class="btn btn-primary">Login</a></span>
-							</div>
-							 </fieldset>
-					</form>
-				</div>
+</head>
+<body class="auth-page">
+	<div class="container">
+		<div class="auth-title">
+			<h2>Daily Expense Tracker</h2>
+			<hr>
+		</div>
+		
+		<div class="auth-card">
+			<div class="auth-card-header">
+				<h4>Create Account</h4>
+				<p>Fill in your details to get started</p>
 			</div>
-		</div><!-- /.col-->
-	</div><!-- /.row -->	
+			<div class="auth-card-body">
+				<?php if($msg){ ?>
+				<div class="auth-alert <?php echo (strpos($msg, 'successfully') !== false) ? 'auth-alert-success' : 'auth-alert-danger'; ?>">
+					<?php echo $msg; ?>
+				</div>
+				<?php } ?>
+				
+				<form role="form" action="" method="post" id="" name="signup" onsubmit="return checkpass();">
+					<div class="auth-form-group">
+						<i class="fa fa-user auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Full Name" name="name" type="text" required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-envelope auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Email Address" name="email" type="email" required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-phone auth-form-icon"></i>
+						<input type="text" class="auth-form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" maxlength="10" pattern="[0-9]{10}" required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-lock auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Password" name="password" type="password" required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-check-circle auth-form-icon"></i>
+						<input type="password" class="auth-form-control" id="repeatpassword" name="repeatpassword" placeholder="Confirm Password" required>
+					</div>
+					
+					<button type="submit" name="submit" class="auth-btn auth-btn-primary">Create Account</button>
+					
+					<div class="auth-divider">
+						<hr>
+						<span>Already have an account?</span>
+						<hr>
+					</div>
+					
+					<div class="text-center">
+						<a href="index.php" class="auth-link">Login to your account</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 
 <script src="js/jquery-1.11.1.min.js"></script>

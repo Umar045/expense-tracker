@@ -28,39 +28,63 @@ if(isset($_POST['login']))
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
-	
+	<link href="css/auth-styles.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="auth-page">
 
-	<div class="row">
-			<h2 align="center">Daily Expense Tracker</h2>
-	<hr />
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">Log in</div>
-				<div class="panel-body">
-					<p style="font-size:16px; color:red" align="center"> <?php if($msg){
-    echo $msg;
-  }  ?> </p>
-					<form role="form" action="" method="post" id="" name="login">
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="" required="true">
-							</div>
-							<a href="forgot-password.php">Forgot Password?</a>
-							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="password" type="password" value="" required="true">
-							</div>
-							<div class="checkbox">
-								<button type="submit" value="login" name="login" class="btn btn-primary">login</button><span style="padding-left:250px">
-								<a href="register.php" class="btn btn-primary">Register</a></span>
-							</div>
-							</fieldset>
-					</form>
-				</div>
+	<div class="container">
+		<div class="auth-title">
+			<h2>Daily Expense Tracker</h2>
+			<hr>
+		</div>
+		
+		<div class="auth-card">
+			<div class="auth-card-header">
+				<h4>Welcome Back</h4>
+				<p>Please login to your account</p>
 			</div>
-		</div><!-- /.col-->
-	</div><!-- /.row -->	
+			<div class="auth-card-body">
+				<?php if($msg){ ?>
+				<div class="auth-alert auth-alert-danger">
+					<?php echo $msg; ?>
+				</div>
+				<?php } ?>
+				
+				<div class="social-login">
+					<button class="social-btn social-btn-github" disabled>
+						<i class="fa fa-github"></i> Login with GitHub
+					</button>
+				</div>
+				
+				<div class="auth-divider">
+					<hr>
+					<span>or with Email</span>
+					<hr>
+				</div>
+				
+				<form role="form" action="" method="post" id="" name="login">
+					<div class="auth-form-group">
+						<i class="fa fa-envelope auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Email Address" name="email" type="email" autofocus required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-lock auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Password" name="password" type="password" required>
+					</div>
+					
+					<button type="submit" name="login" class="auth-btn auth-btn-primary">Login</button>
+					
+					<div class="auth-links">
+						<a href="forgot-password.php" class="auth-link">Forgot Password?</a>
+						<a href="register.php" class="auth-link">Create Account</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 
 <script src="js/jquery-1.11.1.min.js"></script>

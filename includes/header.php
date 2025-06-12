@@ -2,58 +2,72 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include_once('includes/dbconnection.php');
 
-// Include database connection only if not already included
-if (!defined('DB_CONNECT_INCLUDED')) {
-    include_once('dbconnection.php');
-}
+// Get user information for the header
+$userid = isset($_SESSION['detsuid']) ? $_SESSION['detsuid'] : 0;
+$username = '';
+$profile_picture = '';
 
-// Get database connection
-$con = verify_connection();
-?>
-
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="header-animated">
-                <h1 id="typewriter-header"></h1>
-            </div>
-        </div>
-    </div>
-</nav>
-<script>
-// Typewriter animation for header (continuous loop)
-const word = "Daily Expense Tracker";
-const header = document.getElementById('typewriter-header');
-let charIndex = 0;
-function typeWord() {
-    if (charIndex < word.length) {
-        header.textContent = word.substring(0, charIndex + 1);
-        charIndex++;
-        setTimeout(typeWord, 150);
-    } else {
-        setTimeout(() => {
-            let fadeEffect = setInterval(() => {
-                if (header.style.opacity > 0) {
-                    header.style.opacity -= 0.1;
-                } else {
-                    clearInterval(fadeEffect);
-                    charIndex = 0;
-                    header.style.opacity = 1;
-                    typeWord();
-                }
-            }, 100);
-        }, 2000);
+if ($userid > 0) {
+    $con = verify_connection();
+    $stmt = mysqli_prepare($con, "SELECT FullName, ProfilePicture FROM tbluser WHERE ID = ?");
+    mysqli_stmt_bind_param($stmt, "i", $userid);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if ($row = mysqli_fetch_assoc($result)) {
+        $username = $row['FullName'];
+        $profile_picture = $row['ProfilePicture'];
     }
+    mysqli_stmt_close($stmt);
 }
-header.style.opacity = 1;
-typeWord();
+?>
+<link href="css/footer-styles.css" rel="stylesheet">
+<link href="css/header-styles.css" rel="stylesheet">
+
+<div class="header-animation">
+    <div class="typewriter">
+        <h1 id="typewriter-text">Welcome to Daily Expense Tracker</h1>
+    </div>
+</div>
+
+<script>
+// Typewriter effect
+const text = document.getElementById('typewriter-text').innerHTML;
+const typewriterText = document.getElementById('typewriter-text');
+typewriterText.innerHTML = '';
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    typewriterText.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 100);
+  }
+}
+
+typeWriter();
+
+// Toggle dropdown menu
+document.addEventListener('DOMContentLoaded', function() {
+    const profileTrigger = document.querySelector('.profile-trigger');
+    if (profileTrigger) {
+        profileTrigger.addEventListener('click', function() {
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            dropdownMenu.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.profile-dropdown');
+            if (dropdown && !dropdown.contains(event.target)) {
+                const dropdownMenu = document.querySelector('.dropdown-menu');
+                if (dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            }
+        });
+    }
+});
 </script>

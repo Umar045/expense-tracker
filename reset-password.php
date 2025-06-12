@@ -25,10 +25,13 @@ session_destroy();
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Daily Expense Tracker - Forgot Reset</title>
+	<title>Daily Expense Tracker - Reset Password</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
+	<link href="css/auth-styles.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 	<script type="text/javascript">
 function checkpass()
 {
@@ -43,37 +46,51 @@ return true;
 
 </script>
 </head>
-<body>
-	<div class="row">
-			<h2 align="center">Daily Expense Tracker</h2>
-	<hr />
-		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-			<div class="login-panel panel panel-default">
-				<div class="panel-heading">Rest Password</div>
-				<div class="panel-body">
-					<p style="font-size:16px; color:red" align="center"> <?php if($msg){
-    echo $msg;
-  }  ?> </p>
-					<form role="form" action="" method="post" name="changepassword" onsubmit="return checkpass()">
-						<fieldset>
-							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="newpassword" type="password" value="" required="true">
-							</div>
-							
-							<div class="form-group">
-								<input class="form-control" placeholder="Confirm Password" name="confirmpassword" type="password" value="" required="true">
-							</div>
-							<div class="checkbox">
-								<button type="submit" value="" name="submit" class="btn btn-primary">Reset</button><span style="padding-left:250px"><a href="index.php" class="btn btn-primary">Login</a></span>
-
-							</div>
-						
-							</fieldset>
-					</form>
-				</div>
+<body class="auth-page">
+	<div class="container">
+		<div class="auth-title">
+			<h2>Daily Expense Tracker</h2>
+			<hr>
+		</div>
+		
+		<div class="auth-card">
+			<div class="auth-card-header">
+				<h4>Reset Password</h4>
+				<p>Create a new secure password</p>
 			</div>
-		</div><!-- /.col-->
-	</div><!-- /.row -->	
+			<div class="auth-card-body">
+				<?php if($msg){ ?>
+				<div class="auth-alert <?php echo (strpos($msg, 'successfully') !== false) ? 'auth-alert-success' : 'auth-alert-danger'; ?>">
+					<?php echo $msg; ?>
+				</div>
+				<?php } ?>
+				
+				<form role="form" action="" method="post" name="changepassword" onsubmit="return checkpass()">
+					<div class="auth-form-group">
+						<i class="fa fa-lock auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="New Password" name="newpassword" type="password" required>
+					</div>
+					
+					<div class="auth-form-group">
+						<i class="fa fa-check-circle auth-form-icon"></i>
+						<input class="auth-form-control" placeholder="Confirm New Password" name="confirmpassword" type="password" required>
+					</div>
+					
+					<button type="submit" name="submit" class="auth-btn auth-btn-primary">Reset Password</button>
+					
+					<div class="auth-divider">
+						<hr>
+						<span>Remember your password?</span>
+						<hr>
+					</div>
+					
+					<div class="text-center">
+						<a href="index.php" class="auth-link">Back to Login</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
 
 <script src="js/jquery-1.11.1.min.js"></script>

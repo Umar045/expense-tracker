@@ -122,6 +122,7 @@ $recent_result = mysqli_stmt_get_result($recent_stmt);
 	<link href="css/font-awesome.min.css" rel="stylesheet">
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
+	<link href="css/layout-styles.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 	
 	<!-- JavaScript -->
@@ -139,74 +140,91 @@ $recent_result = mysqli_stmt_get_result($recent_stmt);
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	<style>
+    .card {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .bg-primary { background-color: #4e73df; color: white; }
+    .bg-success { background-color: #1cc88a; color: white; }
+    .bg-warning { background-color: #f6c23e; color: white; }
+    .bg-info { background-color: #36b9cc; color: white; }
+    .card h4 { margin-top: 0; }
+    .card h3 { margin-bottom: 0; }
+    .panel-body { height: 300px; }
+    canvas { max-height: 280px !important; }
+</style>
 </head>
-<body>
-	
+<body class="dashboard-page">
+	<!-- Header Section -->
 	<?php include_once('includes/header.php');?>
-	<?php include_once('includes/sidebar.php');?>
+	
+	<div class="app-container">
+		<!-- Sidebar Section -->
+		<?php include_once('includes/sidebar.php');?>
 
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-	    <div class="row" style="margin-top: 30px;"><!-- Added margin-top to keep header spacing after removing breadcrumb -->
-	    </div><!--/.row-->
-	    <div class="row">
-	        <div class="col-lg-12">
-	            <h1 class="page-header">Dashboard</h1>
-	        </div>
-	    </div><!--/.row-->
+		<!-- Main Content Section -->
+		<div class="main-content col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+			<div class="content-wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">Dashboard</h1>
+					</div>
+				</div><!--/.row-->
 		
 		<!-- Expense Summary Cards -->
 		<div class="row">
 			<div class="col-xs-6 col-md-3">
 				<div class="card bg-primary">
-					<div class="card-title">Today's Expense</div>
-					<div class="card-value">₹<?php echo number_format($today_expense, 2); ?></div>
+					<div class="card-body">
+						<h4>Today's Expense</h4>
+						<h3><?php echo number_format($today_expense, 2); ?></h3>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-6 col-md-3">
 				<div class="card bg-success">
-					<div class="card-title">Yesterday's Expense</div>
-					<div class="card-value">₹<?php echo number_format($yesterday_expense, 2); ?></div>
+					<div class="card-body">
+						<h4>Last 7 Days</h4>
+						<h3><?php echo number_format($week_expense, 2); ?></h3>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-6 col-md-3">
 				<div class="card bg-warning">
-					<div class="card-title">Last 7 Days</div>
-					<div class="card-value">₹<?php echo number_format($week_expense, 2); ?></div>
+					<div class="card-body">
+						<h4>Last 30 Days</h4>
+						<h3><?php echo number_format($month_expense, 2); ?></h3>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-6 col-md-3">
 				<div class="card bg-info">
-					<div class="card-title">Last 30 Days</div>
-					<div class="card-value">₹<?php echo number_format($month_expense, 2); ?></div>
+					<div class="card-body">
+						<h4>Year to Date</h4>
+						<h3><?php echo number_format($year_expense, 2); ?></h3>
+					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Charts -->
 		<div class="row">
 			<div class="col-md-6">
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						Expense by Category (Last 30 Days)
-						<span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-					</div>
+					<div class="panel-heading">Expense by Category</div>
 					<div class="panel-body">
-						<div class="chart-container">
-							<canvas id="categoryChart"></canvas>
-						</div>
+						<canvas id="categoryChart"></canvas>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						Daily Expense Trend
-						<span class="pull-right clickable panel-toggle"><em class="fa fa-toggle-up"></em></span>
-					</div>
+					<div class="panel-heading">7 Day Expense Trend</div>
 					<div class="panel-body">
-						<div class="chart-container">
-							<canvas id="trendChart"></canvas>
-						</div>
+						<canvas id="trendChart"></canvas>
 					</div>
 				</div>
 			</div>
@@ -250,35 +268,45 @@ $recent_result = mysqli_stmt_get_result($recent_stmt);
 				</div>
 			</div>
 		</div>
-	</div>	<!--/.main-->
-	<?php include_once('includes/footer.php');?>
+				</div>
+			</div> <!--/.content-wrapper-->
+
+			<!-- Footer Section -->
+			<div class="footer-container">
+				<?php include_once('includes/footer.php');?>
+			</div>
+		</div> <!--/.main-content-->
+	</div> <!--/.app-container-->
 	
 	<script>
 	// Initialize Charts after DOM is ready
 	$(document).ready(function() {
-	    // Generate unique colors for each category
-	    function getRandomColor() {
-	        const letters = '0123456789ABCDEF';
-	        let color = '#';
-	        for (let i = 0; i < 6; i++) {
-	            color += letters[Math.floor(Math.random() * 16)];
-	        }
-	        return color;
-	    }
-	    var categoryLabels = <?php echo json_encode($categories); ?>;
-	    var categoryAmounts = <?php echo json_encode($amounts); ?>;
-	    var categoryColors = categoryLabels.map(() => getRandomColor());
+	    // Debug output
+	    console.log('Category Data:', <?php echo json_encode($categories); ?>);
+	    console.log('Amount Data:', <?php echo json_encode($amounts); ?>);
+	    console.log('Today Expense:', <?php echo json_encode($today_expense); ?>);
 
 	    // Category Chart
 	    var ctxCategory = document.getElementById('categoryChart').getContext('2d');
 	    new Chart(ctxCategory, {
 	        type: 'pie',
 	        data: {
-	            labels: categoryLabels,
+	            labels: <?php echo json_encode($categories); ?>,
 	            datasets: [{
-	                data: categoryAmounts,
-	                backgroundColor: categoryColors
+	                data: <?php echo json_encode($amounts); ?>,
+	                backgroundColor: <?php echo json_encode($categories); ?>.map(() => 
+                    '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+                )
 	            }]
+	        },
+	        options: {
+	            responsive: true,
+	            maintainAspectRatio: false,
+	            plugins: {
+	                legend: {
+	                    position: 'bottom'
+	                }
+	            }
 	        }
 	    });
 
@@ -291,11 +319,13 @@ $recent_result = mysqli_stmt_get_result($recent_stmt);
 	            datasets: [{
 	                label: 'Daily Expenses',
 	                data: <?php echo json_encode($trend_amounts); ?>,
-	                borderColor: '#36A2EB',
-	                fill: false
+	                borderColor: '#4e73df',
+	                tension: 0.1
 	            }]
 	        },
 	        options: {
+	            responsive: true,
+	            maintainAspectRatio: false,
 	            scales: {
 	                y: {
 	                    beginAtZero: true

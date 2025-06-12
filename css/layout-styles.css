@@ -1,0 +1,258 @@
+/* Modern Layout Styles for Daily Expense Tracker */
+
+:root {
+    --sidebar-width: 260px;
+    --header-height: 70px;
+    --content-padding: 20px;
+    --footer-margin-top: 40px;
+    --primary-color: #4e73df;
+    --secondary-color: #858796;
+    --success-color: #1cc88a;
+    --info-color: #36b9cc;
+    --warning-color: #f6c23e;
+    --danger-color: #e74a3b;
+    --light-color: #f8f9fc;
+    --dark-color: #5a5c69;
+    --body-bg: #f5f5f5;
+    --transition: all 0.3s ease;
+}
+
+/* Main Layout Container */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+/* Dashboard Page Specific Styles */
+body.dashboard-page {
+    background-color: var(--body-bg);
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    transition: var(--transition);
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 0 var(--content-padding);
+    padding-bottom: 0;
+    margin-top: 0;
+}
+
+/* Page Header */
+.page-header {
+    color: var(--dark-color);
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.page-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Cards and Panels */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: var(--transition);
+    border: none;
+}
+
+.card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* Card Background Colors */
+.bg-primary {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #1cc88a, #13855c);
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #f6c23e, #dda20a);
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #36b9cc, #258391);
+}
+
+/* Panel Styling */
+.panel {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    border: none;
+}
+
+.panel-heading {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* Table Styling */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table > thead > tr > th {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    color: var(--dark-color);
+    padding: 12px 15px;
+}
+
+.table > tbody > tr > td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Footer Container */
+.footer-container {
+    margin-top: var(--footer-margin-top);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 767px) {
+    .content-wrapper {
+        padding: 15px;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+    
+    .card-value {
+        font-size: 1.5rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+}
+
+/* Animation for page elements */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .panel {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.panel:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.panel:nth-child(2) {
+    animation-delay: 0.6s;
+}

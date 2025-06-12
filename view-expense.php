@@ -21,7 +21,7 @@ if (!$row) { die('Expense not found.'); }
     <tr><th>Date</th><td><?php echo htmlspecialchars($row['ExpenseDate']); ?></td></tr>
     <tr><th>Item</th><td><?php echo htmlspecialchars($row['ExpenseItem']); ?></td></tr>
     <tr><th>Cost</th><td><?php echo htmlspecialchars($row['ExpenseCost']); ?></td></tr>
-    <tr><th>Note</th><td><?php echo htmlspecialchars($row['Note']); ?></td></tr>
+ 
   </table>
   <a href="manage-expense.php" class="btn btn-primary">Back</a>
 </div>
